@@ -77,8 +77,6 @@ require('packer').startup(function(use)
 
   use { 'windwp/nvim-autopairs' }
 
-  use { 'Pocco81/AutoSave.nvim' }
-
   use { 'akinsho/toggleterm.nvim' }
 
   use {
@@ -133,6 +131,7 @@ end
 
 function setupCmp()
   local cmp = require 'cmp'
+  local lspconfig = require('lspconfig')
 
   cmp.setup({
     snippet = {
@@ -216,12 +215,22 @@ function setupCmp()
       },
       capabilities = capabilities,
     }
+
     if lsp == 'omnisharp' then
       config.handlers = {
         ['textDocument/definition'] = require('omnisharp_extended').handler
       }
     end
-    require('lspconfig')[lsp].setup(config)
+
+    if lsp == 'tsserver' then
+      config.root_dir = lspconfig.util.root_pattern('tsconfig.json', 'jsconfig.json', '.git')
+    end
+
+    if lsp == 'eslint' then
+      config.root_dir = lspconfig.util.root_pattern('.eslintrc.json', '.eslintrc.js', '.git')
+    end
+
+    lspconfig[lsp].setup(config)
   end
 end
 
@@ -244,10 +253,6 @@ require('lualine').setup {
     theme = 'tokyonight'
   }
 }
-require('autosave').setup {
-  enable = true,
-  events = { 'InsertLeave' }
-}
 
 require('project_nvim').setup {}
 vim.g.nvim_tree_respect_buf_cwd = 1
@@ -269,14 +274,14 @@ require('alpha').setup(
 )
 require('colorizer').setup {}
 
-require('comment').setup {}
+require('Comment').setup {}
 require('nvim-autopairs').setup {}
 require('toggleterm').setup {
   open_mapping = '<C-t>'
 }
 require('todo-comments').setup {}
 
-require('nvim-treesitter.install').compilers = { 'clang' }
+require('nvim-treesitter.install').compilers = { 'clang', 'gcc' }
 require('nvim-treesitter.configs').setup {
   ensure_installed = {
     'lua',
@@ -330,6 +335,7 @@ set autoindent
 set smartindent
 set completeopt=menu,menuone,noselect
 set scrolloff=999
+set autoread
 
 let g:tokyonight_style = 'night'
 colorscheme tokyonight
