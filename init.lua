@@ -152,7 +152,7 @@ function setupCmp()
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.abort(),
-      ['<Tab>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<Tab>'] = cmp.mapping.select_next_item(),
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
@@ -364,4 +364,7 @@ nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
 nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
 nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+
+imap <silent><script><expr> <F1> copilot#Accept("")
+let g:copilot_no_tab_map = v:true
 ]])
