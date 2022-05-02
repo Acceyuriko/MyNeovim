@@ -1,12 +1,14 @@
-local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  packer_bootstrap = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  packer_bootstrap = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
 end
 
 require('packer').startup(function(use)
   -- My plugins here
   use 'wbthomason/packer.nvim'
 
+  use 'nvim-lua/plenary.nvim'
+  use 'kyazdani42/nvim-web-devicons'
   use 'williamboman/nvim-lsp-installer'
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/cmp-nvim-lsp'
@@ -14,94 +16,70 @@ require('packer').startup(function(use)
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/vim-vsnip'
+  use 'hrsh7th/vim-vsnip-integ'
+  use 'rafamadriz/friendly-snippets'
+  use 'github/copilot.vim'
+
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'p00f/nvim-ts-rainbow' }
 
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = {
+      { 'nvim-telescope/telescope-fzf-native.nvim' },
+    }
   }
 
   use 'Hoffs/omnisharp-extended-lsp.nvim'
 
-  use {
-    'ahmedkhalf/project.nvim',
-    config = function()
-      require('project_nvim').setup()
-    end,
-  }
+  use { 'ahmedkhalf/project.nvim' }
 
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
-  }
+  use { 'Shatur/neovim-session-manager' }
 
-  use {
-    'lunarvim/onedarker.nvim',
-    config= function()
-      require('onedarker').setup {}
-    end,
-  }
+  use { 'goolord/alpha-nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
+
+  use { 'lunarvim/onedarker.nvim' }
 
   use {
     'kyazdani42/nvim-tree.lua',
     requires = {
       'kyazdani42/nvim-web-devicons', -- optional, for file icon
     },
-    config = function() 
-      require('nvim-tree').setup {
-        open_on_setup = true,
-        open_on_setup_file = true,
-        view = {
-            width = 60
-        }
-      }
-    end,
   }
 
-  use {
-    'lewis6991/gitsigns.nvim',
-    config = function()
-      require('gitsigns').setup()
-    end
-  }
+  use { 'lewis6991/gitsigns.nvim' }
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+  use { 'akinsho/git-conflict.nvim' }
 
   use 'folke/lua-dev.nvim'
 
-  use {
-    "folke/which-key.nvim",
-    config = function()
-      require("which-key").setup { }
-    end
-  }
+  use { 'folke/which-key.nvim' }
 
   use {
     'akinsho/bufferline.nvim',
-    tag = "*",
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = function()
-      require('bufferline').setup { }
-    end
+    tag = '*',
+    requires = 'kyazdani42/nvim-web-devicons'
   }
 
   use {
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup {}
-    end
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
 
-  use {
-    'windwp/nvim-autopairs',
-    config = function()
-      require('nvim-autopairs').setup {}
-    end
-  }
-  
-  use {
-    "akinsho/toggleterm.nvim",
-    config = function()
-      require('toggleterm').setup {}
-    end
-  }
+  use { 'numToStr/Comment.nvim' }
+
+  use { 'windwp/nvim-autopairs' }
+
+  use { 'Pocco81/AutoSave.nvim' }
+
+  use { 'akinsho/toggleterm.nvim' }
+
+  use { 'mfussenegger/nvim-dap' }
+  use { 'Pocco81/dap-buddy.nvim' }
+
+  use { 'iamcco/markdown-preview.nvim', run = ':call mkdp#util#install()' }
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
@@ -113,7 +91,7 @@ require('nvim-lsp-installer').setup {}
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
@@ -143,16 +121,16 @@ local on_attach = function(client, bufnr)
 end
 
 function setupCmp()
-  local cmp = require'cmp'
+  local cmp = require 'cmp'
 
   cmp.setup({
     snippet = {
       -- REQUIRED - you must specify a snippet engine
       expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        vim.fn['vsnip#anonymous'](args.body) -- For `vsnip` users.
         -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
         -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+        -- vim.fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
       end,
     },
     window = {
@@ -209,7 +187,15 @@ function setupCmp()
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
   -- Use a loop to conveniently call 'setup' on multiple servers and
   -- map buffer local keybindings when the language server attaches
-  local servers = { 'omnisharp' }
+  local servers = {
+    'omnisharp',
+    'sumneko_lua',
+    'zeta_note',
+    'tsserver',
+    'eslint',
+    'html',
+    'cssls',
+  }
   for _, lsp in pairs(servers) do
     local config = {
       on_attach = on_attach,
@@ -221,15 +207,88 @@ function setupCmp()
     }
     if lsp == 'omnisharp' then
       config.handlers = {
-        ["textDocument/definition"] = require('omnisharp_extended').handler
+        ['textDocument/definition'] = require('omnisharp_extended').handler
       }
     end
     require('lspconfig')[lsp].setup(config)
   end
-  require('lspconfig').sumneko_lua.setup(require('lua-dev').setup {})
 end
+
 setupCmp()
 
+require('onedarker').setup {}
+require('gitsigns').setup()
+require('git-conflict').setup()
+require('which-key').setup {}
+require('bufferline').setup {
+  options = {
+    numbers = 'buffer_id'
+  }
+}
+require('lualine').setup {}
+require('autosave').setup {
+  enable = true,
+  events = { 'InsertLeave' }
+}
+
+require('project_nvim').setup {}
+vim.g.nvim_tree_respect_buf_cwd = 1
+require('nvim-tree').setup {
+  open_on_setup = true,
+  open_on_setup_file = true,
+  view = {
+    width = 60
+  },
+  update_cwd = true,
+  update_focused_file = {
+    enable = true,
+    update_cwd = true,
+  }
+}
+require('session_manager').setup {}
+require('alpha').setup(
+  require('alpha.themes.dashboard').config
+)
+
+require('comment').setup {}
+require('nvim-autopairs').setup {}
+require('toggleterm').setup {
+  open_mapping = '<C-t>'
+}
+
+require('nvim-treesitter.install').compilers = { 'clang' }
+require('nvim-treesitter.configs').setup {
+  ensure_installed = {
+    'lua',
+    'c_sharp',
+    'typescript',
+    'javascript',
+    'html',
+    'css',
+  },
+  sync_install = false,
+  highlight = {
+    enable = true,
+  },
+  incremental_selection = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+  }
+}
+
+require('telescope').setup {
+  defaults = {
+    file_ignore_patterns = { '.git' }
+  },
+}
+require('telescope').load_extension('projects')
 
 vim.cmd([[
 filetype indent plugin on
@@ -253,10 +312,22 @@ set completeopt=menu,menuone,noselect
 set termguicolors
 colorscheme onedarker
 
-let mapleader = " "
+let mapleader = ' '
+
 nnoremap <A-1> :NvimTreeToggle<CR>
+
 nnoremap <leader>ff <cmd>Telescope git_files<cr>
+nnoremap <leader>fg <cmd>Telescope find_files<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fs <cmd>Telescope live_grep<cr>
+
+nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
+nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
+nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
+nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
+nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
 ]])
-
-
