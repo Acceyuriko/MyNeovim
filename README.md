@@ -25,3 +25,4 @@ I should get clang first.
 ```
 :Copilot setup
 ```
+Or use `Copilot! setup` that will allow you to open the browser manually.

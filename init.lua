@@ -19,6 +19,7 @@ require('packer').startup(function(use)
   use 'hrsh7th/vim-vsnip'
   use 'hrsh7th/vim-vsnip-integ'
   use 'rafamadriz/friendly-snippets'
+  use 'ray-x/lsp_signature.nvim'
   use 'github/copilot.vim'
 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -31,7 +32,11 @@ require('packer').startup(function(use)
     }
   }
 
-  use 'Hoffs/omnisharp-extended-lsp.nvim'
+  use { 'simrat39/symbols-outline.nvim' }
+
+  use { "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" }
+
+  use { 'Hoffs/omnisharp-extended-lsp.nvim' }
 
   use { 'ahmedkhalf/project.nvim' }
 
@@ -39,7 +44,8 @@ require('packer').startup(function(use)
 
   use { 'goolord/alpha-nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
 
-  use { 'lunarvim/onedarker.nvim' }
+  use { 'folke/tokyonight.nvim' }
+  use { 'norcalli/nvim-colorizer.lua' }
 
   use {
     'kyazdani42/nvim-tree.lua',
@@ -74,6 +80,11 @@ require('packer').startup(function(use)
   use { 'Pocco81/AutoSave.nvim' }
 
   use { 'akinsho/toggleterm.nvim' }
+
+  use {
+    'folke/todo-comments.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+  }
 
   use { 'mfussenegger/nvim-dap' }
   use { 'Pocco81/dap-buddy.nvim' }
@@ -216,16 +227,23 @@ end
 
 setupCmp()
 
-require('onedarker').setup {}
-require('gitsigns').setup()
-require('git-conflict').setup()
+vim.o.termguicolors = true
+require('lsp_signature').setup {}
+require('trouble').setup {}
+
+require('gitsigns').setup {}
+require('git-conflict').setup {}
 require('which-key').setup {}
 require('bufferline').setup {
   options = {
     numbers = 'buffer_id'
   }
 }
-require('lualine').setup {}
+require('lualine').setup {
+  options = {
+    theme = 'tokyonight'
+  }
+}
 require('autosave').setup {
   enable = true,
   events = { 'InsertLeave' }
@@ -249,12 +267,14 @@ require('session_manager').setup {}
 require('alpha').setup(
   require('alpha.themes.dashboard').config
 )
+require('colorizer').setup {}
 
 require('comment').setup {}
 require('nvim-autopairs').setup {}
 require('toggleterm').setup {
   open_mapping = '<C-t>'
 }
+require('todo-comments').setup {}
 
 require('nvim-treesitter.install').compilers = { 'clang' }
 require('nvim-treesitter.configs').setup {
@@ -309,8 +329,10 @@ set expandtab
 set autoindent
 set smartindent
 set completeopt=menu,menuone,noselect
-set termguicolors
-colorscheme onedarker
+set scrolloff=999
+
+let g:tokyonight_style = 'night'
+colorscheme tokyonight
 
 let mapleader = ' '
 
@@ -330,4 +352,10 @@ nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Break
 nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
 nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
 nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 ]])
