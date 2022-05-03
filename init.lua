@@ -1,3 +1,32 @@
+vim.cmd([[
+filetype indent plugin on
+set nocompatible
+set noundofile
+set noswapfile
+set nobackup
+set autochdir
+set nowrap
+
+set nu
+set ignorecase
+set smartcase
+set tabstop=2
+set shiftwidth=0
+set softtabstop=2
+set expandtab
+set autoindent
+set smartindent
+set completeopt=menu,menuone,noselect
+set scrolloff=999
+set autoread
+set cursorline
+
+let g:tokyonight_style = 'night'
+colorscheme tokyonight
+
+let mapleader = ' '
+]])
+
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   packer_bootstrap = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
@@ -21,6 +50,7 @@ require('packer').startup(function(use)
   use 'rafamadriz/friendly-snippets'
   use 'ray-x/lsp_signature.nvim'
   use 'github/copilot.vim'
+  use 'RRethy/vim-illuminate'
 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'p00f/nvim-ts-rainbow' }
@@ -127,6 +157,8 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+  require('illuminate').on_attach(client)
 end
 
 function setupCmp()
@@ -236,9 +268,33 @@ end
 
 setupCmp()
 
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_filetypes = {
+  ['*'] = false,
+  ['javascript'] = true,
+  ['typescript'] = true,
+  ['lua'] = true,
+  ['rust'] = true,
+  ['c'] = true,
+  ['c#'] = true,
+  ['c++'] = true,
+  ['go'] = true,
+  ['python'] = true,
+  ['markdown'] = true,
+}
+vim.api.nvim_set_keymap('i', '<F1>', 'copilot#Accept("")', { silent = true, expr = true })
+
 vim.o.termguicolors = true
 require('lsp_signature').setup {}
+
 require('trouble').setup {}
+vim.cmd([[
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+]])
 
 require('gitsigns').setup {}
 require('git-conflict').setup {}
@@ -255,6 +311,7 @@ require('lualine').setup {
 }
 
 require('project_nvim').setup {}
+
 vim.g.nvim_tree_respect_buf_cwd = 1
 require('nvim-tree').setup {
   open_on_setup = true,
@@ -268,6 +325,8 @@ require('nvim-tree').setup {
     update_cwd = true,
   }
 }
+vim.cmd('nnoremap <A-1> :NvimTreeToggle<CR>')
+
 require('session_manager').setup {}
 require('alpha').setup(
   require('alpha.themes.dashboard').config
@@ -276,9 +335,11 @@ require('colorizer').setup {}
 
 require('Comment').setup {}
 require('nvim-autopairs').setup {}
+
 require('toggleterm').setup {
   open_mapping = '<C-t>'
 }
+
 require('todo-comments').setup {}
 
 require('nvim-treesitter.install').compilers = { 'clang', 'gcc' }
@@ -314,41 +375,15 @@ require('telescope').setup {
   },
 }
 require('telescope').load_extension('projects')
-
 vim.cmd([[
-filetype indent plugin on
-set nocompatible
-set noundofile
-set noswapfile
-set nobackup
-set autochdir
-set nowrap
-
-set nu
-set ignorecase
-set smartcase
-set tabstop=2
-set shiftwidth=0
-set softtabstop=2
-set expandtab
-set autoindent
-set smartindent
-set completeopt=menu,menuone,noselect
-set scrolloff=999
-set autoread
-
-let g:tokyonight_style = 'night'
-colorscheme tokyonight
-
-let mapleader = ' '
-
-nnoremap <A-1> :NvimTreeToggle<CR>
-
 nnoremap <leader>ff <cmd>Telescope git_files<cr>
 nnoremap <leader>fg <cmd>Telescope find_files<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fs <cmd>Telescope live_grep<cr>
+]])
 
+
+vim.cmd([[
 nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
 nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
 nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
@@ -358,13 +393,4 @@ nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Break
 nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
 nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
 nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
-
-nnoremap <leader>xx <cmd>TroubleToggle<cr>
-nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
-nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
-nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
-nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
-
-imap <silent><script><expr> <F1> copilot#Accept("")
-let g:copilot_no_tab_map = v:true
 ]])
