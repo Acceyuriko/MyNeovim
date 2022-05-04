@@ -269,7 +269,7 @@ function setupCmp()
   local servers = {
     'omnisharp',
     'sumneko_lua',
-    'zeta_note',
+    'ltex',
     'tsserver',
     'eslint',
     'html',
