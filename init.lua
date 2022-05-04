@@ -183,7 +183,6 @@ function setupCmp()
       ['<C-b>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-e>'] = cmp.mapping.abort(),
       ['<Tab>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
     sources = cmp.config.sources({
@@ -206,9 +205,47 @@ function setupCmp()
     })
   })
 
+  local cmdline_keymap = {
+    ['<Tab>'] = {
+      c = function()
+        if cmp.visible() then
+          cmp.select_next_item()
+        end
+      end,
+    },
+    ['<S-Tab>'] = {
+      c = function()
+        if cmp.visible() then
+          cmp.select_prev_item()
+        end
+      end,
+    },
+    ['<C-n>'] = {
+      c = function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          fallback()
+        end
+      end,
+    },
+    ['<C-p>'] = {
+      c = function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        else
+          fallback()
+        end
+      end,
+    },
+    ['<C-e>'] = {
+      c = cmp.mapping.close(),
+    },
+  }
+
   -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline('/', {
-    mapping = cmp.mapping.preset.cmdline(),
+    mapping = cmdline_keymap,
     sources = {
       { name = 'buffer' }
     }
@@ -216,7 +253,7 @@ function setupCmp()
 
   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
   cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
+    mapping = cmdline_keymap,
     sources = cmp.config.sources({
       { name = 'path' }
     }, {
@@ -314,8 +351,6 @@ require('project_nvim').setup {}
 
 vim.g.nvim_tree_respect_buf_cwd = 1
 require('nvim-tree').setup {
-  open_on_setup = true,
-  open_on_setup_file = true,
   view = {
     width = 60
   },
@@ -380,6 +415,7 @@ nnoremap <leader>ff <cmd>Telescope git_files<cr>
 nnoremap <leader>fg <cmd>Telescope find_files<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fs <cmd>Telescope live_grep<cr>
+nnoremap <leader>fr <cmd>Telescope lsp_references<cr>
 ]])
 
 
