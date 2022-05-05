@@ -22,7 +22,8 @@ require('packer').startup(function(use)
   use 'ray-x/lsp_signature.nvim'
   use 'github/copilot.vim'
   use 'RRethy/vim-illuminate'
-
+  use 'tpope/vim-sleuth'
+ 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'p00f/nvim-ts-rainbow' }
 
@@ -78,8 +79,6 @@ require('packer').startup(function(use)
 
   use { 'windwp/nvim-autopairs' }
 
-  use { 'akinsho/toggleterm.nvim' }
-
   use {
     'folke/todo-comments.nvim',
     requires = 'nvim-lua/plenary.nvim',
@@ -119,6 +118,9 @@ set completeopt=menu,menuone,noselect
 set scrolloff=999
 set autoread
 set cursorline
+if has("win32") || has ("win64")
+  set shell=\"C:/Program\ Files/Git/bin/bash.exe\"
+end
 
 let g:tokyonight_style = 'night'
 colorscheme tokyonight
@@ -360,7 +362,10 @@ require('nvim-tree').setup {
     update_cwd = true,
   }
 }
-vim.cmd('nnoremap <A-1> :NvimTreeToggle<CR>')
+vim.cmd([[
+nnoremap <A-1> :NvimTreeToggle<CR>
+highlight NvimTreeFolderIcon guibg=true
+]])
 
 require('session_manager').setup {}
 require('alpha').setup(
@@ -370,10 +375,6 @@ require('colorizer').setup {}
 
 require('Comment').setup {}
 require('nvim-autopairs').setup {}
-
-require('toggleterm').setup {
-  open_mapping = '<C-t>'
-}
 
 require('todo-comments').setup {}
 
