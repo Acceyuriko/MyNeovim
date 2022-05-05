@@ -1,32 +1,3 @@
-vim.cmd([[
-filetype indent plugin on
-set nocompatible
-set noundofile
-set noswapfile
-set nobackup
-set autochdir
-set nowrap
-
-set nu
-set ignorecase
-set smartcase
-set tabstop=2
-set shiftwidth=0
-set softtabstop=2
-set expandtab
-set autoindent
-set smartindent
-set completeopt=menu,menuone,noselect
-set scrolloff=999
-set autoread
-set cursorline
-
-let g:tokyonight_style = 'night'
-colorscheme tokyonight
-
-let mapleader = ' '
-]])
-
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   packer_bootstrap = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
@@ -125,6 +96,35 @@ require('packer').startup(function(use)
     require('packer').sync()
   end
 end)
+
+vim.cmd([[
+filetype indent plugin on
+set nocompatible
+set noundofile
+set noswapfile
+set nobackup
+set autochdir
+set nowrap
+
+set nu
+set ignorecase
+set smartcase
+set tabstop=2
+set shiftwidth=0
+set softtabstop=2
+set expandtab
+set autoindent
+set smartindent
+set completeopt=menu,menuone,noselect
+set scrolloff=999
+set autoread
+set cursorline
+
+let g:tokyonight_style = 'night'
+colorscheme tokyonight
+
+let mapleader = ' '
+]])
 
 require('nvim-lsp-installer').setup {}
 
