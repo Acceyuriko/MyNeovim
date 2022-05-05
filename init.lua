@@ -23,7 +23,7 @@ require('packer').startup(function(use)
   use 'github/copilot.vim'
   use 'RRethy/vim-illuminate'
   use 'tpope/vim-sleuth'
- 
+
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'p00f/nvim-ts-rainbow' }
 
@@ -41,10 +41,6 @@ require('packer').startup(function(use)
   use { 'Hoffs/omnisharp-extended-lsp.nvim' }
 
   use { 'ahmedkhalf/project.nvim' }
-
-  use { 'Shatur/neovim-session-manager' }
-
-  use { 'goolord/alpha-nvim', requires = { 'kyazdani42/nvim-web-devicons' } }
 
   use { 'folke/tokyonight.nvim' }
   use { 'norcalli/nvim-colorizer.lua' }
@@ -126,6 +122,9 @@ let g:tokyonight_style = 'night'
 colorscheme tokyonight
 
 let mapleader = ' '
+
+nnoremap <silent> <c-j> :bn<cr>
+nnoremap <silent> <c-k> :bp<cr>
 ]])
 
 require('nvim-lsp-installer').setup {}
@@ -148,9 +147,9 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>h', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>s', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -367,10 +366,6 @@ nnoremap <A-1> :NvimTreeToggle<CR>
 highlight NvimTreeFolderIcon guibg=true
 ]])
 
-require('session_manager').setup {}
-require('alpha').setup(
-  require('alpha.themes.dashboard').config
-)
 require('colorizer').setup {}
 
 require('Comment').setup {}
@@ -387,6 +382,7 @@ require('nvim-treesitter.configs').setup {
     'javascript',
     'html',
     'css',
+    'tsx',
   },
   sync_install = false,
   highlight = {
