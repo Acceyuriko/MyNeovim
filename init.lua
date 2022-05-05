@@ -127,7 +127,6 @@ nnoremap <silent> <c-j> :bn<cr>
 nnoremap <silent> <c-k> :bp<cr>
 ]])
 
-require('nvim-lsp-installer').setup {}
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -165,6 +164,7 @@ end
 function setupCmp()
   local cmp = require 'cmp'
   local lspconfig = require('lspconfig')
+  local lspinstaller = require('nvim-lsp-installer')
 
   cmp.setup({
     snippet = {
@@ -276,6 +276,10 @@ function setupCmp()
     'html',
     'cssls',
   }
+  lspinstaller.setup {
+    ensure_installed = servers,
+  }
+
   for _, lsp in pairs(servers) do
     local config = {
       on_attach = on_attach,
