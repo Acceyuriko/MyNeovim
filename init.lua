@@ -121,6 +121,9 @@ end
 let g:tokyonight_style = 'night'
 colorscheme tokyonight
 
+let g:mkdp_open_to_the_world = 1
+let g:mkdp_echo_preview_url = 1
+
 let mapleader = ' '
 
 nnoremap <silent> <c-j> :bn<cr>
@@ -331,8 +334,6 @@ require('lsp_signature').setup {}
 
 require('trouble').setup {}
 vim.cmd([[
-nnoremap <leader>xx <cmd>TroubleToggle<cr>
-nnoremap <leader>xw <cmd>TroubleToggle workspace_diagnostics<cr>
 nnoremap <leader>xd <cmd>TroubleToggle document_diagnostics<cr>
 nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
@@ -417,6 +418,7 @@ nnoremap <leader>fg <cmd>Telescope find_files<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fs <cmd>Telescope live_grep<cr>
 nnoremap <leader>fr <cmd>Telescope lsp_references<cr>
+nnoremap <leader>fd <cmd>Telescope diagnostics bufnr=0<cr>
 ]])
 
 
