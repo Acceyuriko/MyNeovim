@@ -6,10 +6,14 @@ My simple neovim configuration for development.
 
 ### Prerequests
 - Node.js, npm and yarn.
-- Because of the [problem](https://github.com/nvim-treesitter/nvim-treesitter/wiki/Windows-support#troubleshooting), I should get clang first.
 - [fd](https://github.com/sharkdp/fd) is requried for `find_files` of `telescope`.
 - [ripgrep](https://github.com/BurntSushi/ripgrep) is required for `live_grep` of `telescope`.
-- [git bash](https://git-scm.com/downloads) if using Windows.
+- Windows
+  - [git bash](https://git-scm.com/downloads)
+  - [chocolatey](https://docs.chocolatey.org/en-us/choco/setup#non-administrative-install)
+  - Because of the [problem](https://github.com/nvim-treesitter/nvim-treesitter/wiki/Windows-support#troubleshooting), clang is required.
+  - `make` and `mingw` is required for compiling.
+  - Run `choco install make mingw llvm` in powershell with admin privileges.
 
 ### Download Cascadia Nerd Font
 [CascadiaCode](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/CascadiaCode)
