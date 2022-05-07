@@ -56,20 +56,15 @@ require('packer').startup(function(use)
 
   use { 'folke/which-key.nvim' }
 
-  use {
-    'akinsho/bufferline.nvim',
-    tag = '*',
-    requires = 'kyazdani42/nvim-web-devicons'
-  }
+  use { 'akinsho/bufferline.nvim', tag = '*' }
 
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-  }
+  use { 'nvim-lualine/lualine.nvim' }
 
   use { 'numToStr/Comment.nvim' }
+  use { 'JoosepAlviste/nvim-ts-context-commentstring' }
 
   use { 'windwp/nvim-autopairs' }
+  use { 'lukas-reineke/indent-blankline.nvim' }
 
   use {
     'folke/todo-comments.nvim',
@@ -275,6 +270,7 @@ function setupCmp()
     'eslint',
     'html',
     'cssls',
+    'jsonls',
   }
   lspinstaller.setup {
     ensure_installed = servers,
@@ -349,6 +345,10 @@ require('lualine').setup {
     theme = 'tokyonight'
   }
 }
+require('indent_blankline').setup {
+  show_current_context = true,
+  show_current_context_start = true,
+}
 
 require('project_nvim').setup {}
 
@@ -370,7 +370,24 @@ highlight NvimTreeFolderIcon guibg=true
 
 require('colorizer').setup {}
 
-require('Comment').setup {}
+require('Comment').setup {
+  pre_hook = function(ctx)
+    local U = require 'Comment.utils'
+
+    local location = nil
+    if ctx.ctype == U.ctype.block then
+      location = require('ts_context_commentstring.utils').get_cursor_location()
+    elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+      location = require('ts_context_commentstring.utils').get_visual_start_location()
+    end
+
+    return require('ts_context_commentstring.internal').calculate_commentstring {
+      key = ctx.ctype == U.ctype.line and '__default' or '__multiline',
+      location = location,
+    }
+  end,
+}
+
 require('nvim-autopairs').setup {}
 
 require('todo-comments').setup {}
@@ -400,15 +417,24 @@ require('nvim-treesitter.configs').setup {
     enable = true,
     extended_mode = true,
     max_file_lines = nil,
-  }
+  },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
+  },
 }
+vim.cmd([[
+set foldenable
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+]])
 
 require('telescope').setup {}
 require('telescope').load_extension('projects')
 require('telescope').load_extension('fzf')
 vim.cmd([[
-nnoremap <leader>ff <cmd>Telescope git_files<cr>
-nnoremap <leader>fg <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope git_files<cr>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fs <cmd>Telescope live_grep<cr>
 nnoremap <leader>fr <cmd>Telescope lsp_references<cr>
