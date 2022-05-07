@@ -27,12 +27,8 @@ require('packer').startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'p00f/nvim-ts-rainbow' }
 
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      { 'nvim-telescope/telescope-fzf-native.nvim' },
-    }
-  }
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'nvim-telescope/telescope.nvim' }
 
   use { 'simrat39/symbols-outline.nvim' }
 
@@ -82,6 +78,7 @@ require('packer').startup(function(use)
 
   use { 'mfussenegger/nvim-dap' }
   use { 'Pocco81/dap-buddy.nvim' }
+  use { 'prettier/vim-prettier' }
 
   use { 'iamcco/markdown-preview.nvim', run = ':call mkdp#util#install()' }
 
@@ -406,12 +403,9 @@ require('nvim-treesitter.configs').setup {
   }
 }
 
-require('telescope').setup {
-  defaults = {
-    file_ignore_patterns = { '.git' }
-  },
-}
+require('telescope').setup {}
 require('telescope').load_extension('projects')
+require('telescope').load_extension('fzf')
 vim.cmd([[
 nnoremap <leader>ff <cmd>Telescope git_files<cr>
 nnoremap <leader>fg <cmd>Telescope find_files<cr>
