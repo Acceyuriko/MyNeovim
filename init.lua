@@ -28,6 +28,7 @@ require('packer').startup(function(use)
   use { 'p00f/nvim-ts-rainbow' }
 
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'nvim-telescope/telescope-ui-select.nvim' }
   use { 'nvim-telescope/telescope.nvim' }
   use { 'nvim-pack/nvim-spectre' }
 
@@ -107,6 +108,7 @@ set completeopt=menu,menuone,noselect
 set scrolloff=999
 set autoread
 set cursorline
+set updatetime=250
 if has("win32") || has ("win64")
   set shell=\"C:/Program\ Files/Git/bin/bash.exe\"
 end
@@ -141,9 +143,9 @@ local on_attach = function(client, bufnr)
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>h', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>s', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
@@ -151,8 +153,21 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  vim.api.nvim_create_autocmd("CursorHold", {
+    buffer = bufnr,
+    callback = function()
+      vim.diagnostic.open_float(nil, {
+        focusable = false,
+        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+        border = 'rounded',
+        source = 'always',
+        prefix = ' ',
+        scope = 'cursor',
+      })
+    end
+  })
 
   require('illuminate').on_attach(client)
 end
@@ -311,7 +326,13 @@ vim.g.copilot_no_tab_map = true
 vim.g.copilot_filetypes = {
   ['*'] = false,
   ['javascript'] = true,
+  ['javascriptreact'] = true,
   ['typescript'] = true,
+  ['typescriptreact'] = true,
+  ['html'] = true,
+  ['css'] = true,
+  ['less'] = true,
+  ['scss'] = true,
   ['lua'] = true,
   ['rust'] = true,
   ['c'] = true,
@@ -426,6 +447,7 @@ require('nvim-treesitter.configs').setup {
 }
 vim.cmd([[
 set foldenable
+set foldlevel=99
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 ]])
@@ -433,13 +455,16 @@ set foldexpr=nvim_treesitter#foldexpr()
 require('telescope').setup {}
 require('telescope').load_extension('projects')
 require('telescope').load_extension('fzf')
+require('telescope').load_extension('ui-select')
 vim.cmd([[
 nnoremap <leader>fg <cmd>Telescope git_files<cr>
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fs <cmd>Telescope live_grep<cr>
-nnoremap <leader>fr <cmd>Telescope lsp_references<cr>
 nnoremap <leader>fd <cmd>Telescope diagnostics bufnr=0<cr>
+nnoremap gr <cmd>Telescope lsp_references<cr>
+nnoremap gd <cmd>Telescope lsp_definitions<cr>
+nnoremap gi <cmd>Telescope lsp_implementations<cr>
 ]])
 
 vim.cmd([[

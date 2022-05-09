@@ -15,6 +15,7 @@ My simple neovim configuration for development.
   - `make` and `mingw` is required for compiling.
   - `sed` is required for `vim-spectre`.
   - Run `choco install make mingw llvm sed` in powershell with admin privileges.
+  - [xdg-open-wsl](https://github.com/cpbotha/xdg-open-wsl) is required for opening files in WSL.
 
 ### Download Cascadia Nerd Font
 [CascadiaCode](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/CascadiaCode)
