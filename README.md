@@ -13,7 +13,8 @@ My simple neovim configuration for development.
   - [chocolatey](https://docs.chocolatey.org/en-us/choco/setup#non-administrative-install)
   - Because of the [problem](https://github.com/nvim-treesitter/nvim-treesitter/wiki/Windows-support#troubleshooting), clang is required.
   - `make` and `mingw` is required for compiling.
-  - Run `choco install make mingw llvm` in powershell with admin privileges.
+  - `sed` is required for `vim-spectre`.
+  - Run `choco install make mingw llvm sed` in powershell with admin privileges.
 
 ### Download Cascadia Nerd Font
 [CascadiaCode](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/CascadiaCode)

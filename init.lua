@@ -29,6 +29,7 @@ require('packer').startup(function(use)
 
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use { 'nvim-telescope/telescope.nvim' }
+  use { 'nvim-pack/nvim-spectre' }
 
   use { 'simrat39/symbols-outline.nvim' }
 
@@ -441,6 +442,10 @@ nnoremap <leader>fr <cmd>Telescope lsp_references<cr>
 nnoremap <leader>fd <cmd>Telescope diagnostics bufnr=0<cr>
 ]])
 
+vim.cmd([[
+nnoremap <leader>sr <cmd>lua require('spectre').open_file_search()<cr>
+nnoremap <leader>sra <cmd>lua require('spectre').open()<cr>
+]])
 
 vim.cmd([[
 nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
