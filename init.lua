@@ -80,6 +80,8 @@ require('packer').startup(function(use)
 
   use { 'iamcco/markdown-preview.nvim', run = 'call mkdp#util#install()' }
 
+  use { 'Pocco81/AutoSave.nvim'}
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
@@ -467,3 +469,7 @@ vim.api.nvim_set_keymap('n', '<leader>B', '<cmd>lua require("dap").set_breakpoin
 vim.api.nvim_set_keymap('n', '<leader>lp', '<cmd>lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<cr>', opts);
 vim.api.nvim_set_keymap('n', '<leader>dr', '<cmd>lua require("dap").repl.open()<cr>', opts);
 vim.api.nvim_set_keymap('n', '<leader>dl', '<cmd>lua require("dap").run_last()<cr>', opts);
+
+require('autosave').setup ({
+  enabled = true,
+})
