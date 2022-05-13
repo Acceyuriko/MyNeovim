@@ -67,12 +67,10 @@ require('packer').startup(function(use)
   use { 'JoosepAlviste/nvim-ts-context-commentstring' }
 
   use { 'windwp/nvim-autopairs' }
+  use { 'windwp/nvim-ts-autotag' }
   use { 'lukas-reineke/indent-blankline.nvim' }
 
-  use {
-    'folke/todo-comments.nvim',
-    requires = 'nvim-lua/plenary.nvim',
-  }
+  use { 'folke/todo-comments.nvim' }
 
   use { 'mfussenegger/nvim-dap' }
   use { 'Pocco81/dap-buddy.nvim' }
@@ -80,7 +78,10 @@ require('packer').startup(function(use)
 
   use { 'iamcco/markdown-preview.nvim', run = 'call mkdp#util#install()' }
 
-  use { 'Pocco81/AutoSave.nvim'}
+  use { 'Pocco81/AutoSave.nvim' }
+
+  use { 'kevinhwang91/nvim-hlslens' }
+  use { 'petertriho/nvim-scrollbar' }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -115,7 +116,6 @@ if has("win32") || has ("win64")
   set shell=\"C:/Program\ Files/Git/bin/bash.exe\"
 end
 
-let g:tokyonight_style = 'night'
 colorscheme tokyonight
 
 let g:mkdp_open_to_the_world = 1
@@ -403,10 +403,6 @@ require('Comment').setup {
   end,
 }
 
-require('nvim-autopairs').setup {}
-
-require('todo-comments').setup {}
-
 require('nvim-treesitter.install').compilers = { 'clang', 'gcc' }
 require('nvim-treesitter.configs').setup {
   ensure_installed = {
@@ -438,6 +434,12 @@ require('nvim-treesitter.configs').setup {
     enable_autocmd = false,
   },
 }
+
+require('nvim-autopairs').setup {}
+require('nvim-ts-autotag').setup {}
+
+require('todo-comments').setup {}
+
 vim.cmd([[
 set foldenable
 set foldlevel=99
@@ -445,7 +447,14 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 ]])
 
-require('telescope').setup {}
+require('telescope').setup({
+  defaults = {
+    layout_strategy = 'vertical',
+    layout_config = {
+      vertical = { width = 0.95, height = 0.95 },
+    }
+  }
+})
 require('telescope').load_extension('projects')
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('ui-select')
@@ -470,6 +479,33 @@ vim.api.nvim_set_keymap('n', '<leader>lp', '<cmd>lua require("dap").set_breakpoi
 vim.api.nvim_set_keymap('n', '<leader>dr', '<cmd>lua require("dap").repl.open()<cr>', opts);
 vim.api.nvim_set_keymap('n', '<leader>dl', '<cmd>lua require("dap").run_last()<cr>', opts);
 
-require('autosave').setup ({
+require('autosave').setup({
   enabled = true,
+  debounce_delay = 1000,
 })
+
+require('hlslens').setup {}
+vim.api.nvim_set_keymap('n', 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], opts)
+vim.api.nvim_set_keymap('n', 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], opts)
+vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], opts)
+vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>l', ':noh<CR>', opts)
+
+local colors = require('tokyonight.colors').setup()
+
+require('scrollbar').setup {
+  handle = {
+    color = colors.bg_highlight,
+  },
+  marks = {
+    Search = { color = colors.orange },
+    Error = { color = colors.error },
+    Warn = { color = colors.warning },
+    Info = { color = colors.info },
+    Hint = { color = colors.hint },
+    Misc = { color = colors.purple },
+  }
+}
+require('scrollbar.handlers.search').setup {}
