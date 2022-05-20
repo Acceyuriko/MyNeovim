@@ -35,7 +35,7 @@ require('packer').startup(function(use)
 
   use { 'simrat39/symbols-outline.nvim' }
 
-  use { "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" }
+  use { "folke/trouble.nvim" }
 
   use { 'Hoffs/omnisharp-extended-lsp.nvim' }
 
@@ -52,7 +52,7 @@ require('packer').startup(function(use)
   }
 
   use { 'lewis6991/gitsigns.nvim' }
-  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+  use { 'sindrets/diffview.nvim' }
   use { 'akinsho/git-conflict.nvim' }
 
   use 'folke/lua-dev.nvim'
@@ -473,6 +473,9 @@ vim.api.nvim_set_keymap('n', '<leader>fs', '<cmd>Telescope live_grep<cr>', opts)
 vim.api.nvim_set_keymap('n', '<leader>fd', '<cmd>Telescope diagnostics bufnr=0<cr>', opts);
 vim.api.nvim_set_keymap('n', '<leader>fr', '<cmd>Telescope lsp_references<cr>', opts);
 vim.api.nvim_set_keymap('n', '<leader>fi', '<cmd>Telescope lsp_implementations<cr>', opts);
+
+vim.api.nvim_set_keymap('n', '<leader>dfo', '<cmd>DiffviewOpen<cr>', opts);
+vim.api.nvim_set_keymap('n', '<leader>dfc', '<cmd>DiffviewClose<cr>', opts);
 
 vim.api.nvim_set_keymap('n', '<leader>sr', '<cmd>lua require("spectre").open_file_search()<cr>', opts);
 vim.api.nvim_set_keymap('n', '<leader>sra', '<cmd>lua require("spectre").open()<cr>', opts);
