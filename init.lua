@@ -26,6 +26,7 @@ require('packer').startup(function(use)
   use 'tpope/vim-sleuth'
 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'nvim-treesitter/nvim-treesitter-refactor' }
   use { 'p00f/nvim-ts-rainbow' }
 
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
@@ -128,8 +129,8 @@ let mapleader = ' '
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
-vim.api.nvim_set_keymap('n', '<c-j>', '<cmd>bn<cr>', opts);
-vim.api.nvim_set_keymap('n', '<c-k>', '<cmd>bp<cr>', opts);
+vim.api.nvim_set_keymap('n', '<c-j>', '<cmd>bp<cr>', opts);
+vim.api.nvim_set_keymap('n', '<c-k>', '<cmd>bn<cr>', opts);
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
@@ -433,6 +434,14 @@ require('nvim-treesitter.configs').setup {
     enable = true,
     enable_autocmd = false,
   },
+  refactor = {
+    smart_rename = {
+      enable = true,
+      keymaps = {
+        smart_rename = "<leader>rr"
+      }
+    }
+  },
 }
 
 require('nvim-autopairs').setup {}
@@ -473,6 +482,8 @@ vim.api.nvim_set_keymap('n', '<leader>fs', '<cmd>Telescope live_grep<cr>', opts)
 vim.api.nvim_set_keymap('n', '<leader>fd', '<cmd>Telescope diagnostics bufnr=0<cr>', opts);
 vim.api.nvim_set_keymap('n', '<leader>fr', '<cmd>Telescope lsp_references<cr>', opts);
 vim.api.nvim_set_keymap('n', '<leader>fi', '<cmd>Telescope lsp_implementations<cr>', opts);
+
+vim.api.nvim_set_keymap('n', '<leader>bo', '<cmd>w <bar> %bd <bar> e# <bar> bd# <cr>', opts);
 
 vim.api.nvim_set_keymap('n', '<leader>dfo', '<cmd>DiffviewOpen<cr>', opts);
 vim.api.nvim_set_keymap('n', '<leader>dfc', '<cmd>DiffviewClose<cr>', opts);
