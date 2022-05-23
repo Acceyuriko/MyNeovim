@@ -117,6 +117,7 @@ if has("win32") || has ("win64")
   set shell=\"C:/Program\ Files/Git/bin/bash.exe\"
 end
 
+let g:tokyonight_style = "night"
 colorscheme tokyonight
 
 let g:mkdp_open_to_the_world = 1
