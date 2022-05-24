@@ -110,6 +110,7 @@ set expandtab
 set autoindent
 set smartindent
 set completeopt=menu,menuone,noselect
+set signcolumn=yes
 set scrolloff=999
 set autoread
 set cursorline
