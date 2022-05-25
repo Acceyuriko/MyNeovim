@@ -40,6 +40,8 @@ require('packer').startup(function(use)
 
   use { 'Hoffs/omnisharp-extended-lsp.nvim' }
 
+  use { 'simrat39/rust-tools.nvim' }
+
   use { 'ahmedkhalf/project.nvim' }
 
   use { 'folke/tokyonight.nvim' }
@@ -276,6 +278,11 @@ local function setupCmp()
     'ltex',
     'tsserver',
     'eslint',
+    'rust_analyzer',
+    'gopls',
+    'pyright',
+    'clangd',
+    'jdtls',
     'html',
     'cssls',
     'jsonls',
@@ -323,6 +330,8 @@ local function setupCmp()
 end
 
 setupCmp()
+
+require('rust-tools').setup {}
 
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_filetypes = {
