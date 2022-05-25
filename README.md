@@ -6,8 +6,9 @@ My simple neovim configuration for development.
 
 ### Prerequests
 - Node.js, npm and yarn.
-- [fd](https://github.com/sharkdp/fd) is requried for `find_files` of `telescope`.
+- [fd](https://github.com/sharkdp/fd) is required for `find_files` of `telescope`.
 - [ripgrep](https://github.com/BurntSushi/ripgrep) is required for `live_grep` of `telescope`.
+- [neovide](https://github.com/neovide/neovide) is recommended.
 - Windows
   - [git bash](https://git-scm.com/downloads)
   - [chocolatey](https://docs.chocolatey.org/en-us/choco/setup#non-administrative-install)
@@ -35,4 +36,4 @@ Copy the scripts below into a file named `OpenByNeo.bat`
 ```
 nvim %1
 ```
-Right click the file you want to open, select `Open with` -> `Choose another app` -> `Look for another app in this PC`, find `OpenByNeo.bat`. Remeber to check `Always use this app to open *.* files`.
+Right click the file you want to open, select `Open with` -> `Choose another app` -> `Look for another app in this PC`, find `OpenByNeo.bat`. Remember to check `Always use this app to open *.* files`.
