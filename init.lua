@@ -85,6 +85,7 @@ require('packer').startup(function(use)
 
   use { 'kevinhwang91/nvim-hlslens' }
   use { 'petertriho/nvim-scrollbar' }
+  use { 'goolord/alpha-nvim' }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -113,9 +114,10 @@ set autoindent
 set smartindent
 set completeopt=menu,menuone,noselect
 set signcolumn=yes
-set scrolloff=999
+set scrolloff=10
 set autoread
 set cursorline
+set clipboard=unnamedplus
 if has("win32") || has ("win64")
   set shell=\"C:/Program\ Files/Git/bin/bash.exe\"
 end
@@ -547,3 +549,5 @@ require('scrollbar').setup {
   }
 }
 require('scrollbar.handlers.search').setup {}
+
+require('alpha').setup(require('alpha.themes.startify').config)
