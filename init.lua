@@ -130,7 +130,7 @@ let g:mkdp_echo_preview_url = 1
 
 let g:prettier#exec_cmd_async = 1
 
-set guifont=CaskaydiaCove\ Nerd\ Font:h12
+set guifont=CaskaydiaCove\ Nerd\ Font:h10
 let g:neovide_cursor_vfx_mode = "railgun"
 
 let mapleader = ' '
