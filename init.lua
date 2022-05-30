@@ -97,6 +97,7 @@ require('yuriko.vim').setup {}
 
 require('yuriko.cmp').setup {}
 require('yuriko.copilot').setup {}
+require('yuriko.diagnostic').setup {}
 require('yuriko.project').setup {}
 require('yuriko.ui').setup {}
 require('yuriko.treesitter').setup {}

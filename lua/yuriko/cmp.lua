@@ -149,7 +149,7 @@ function M:setup()
     'jsonls',
   }
   lspinstaller.setup {
-    ensure_installed = servers,
+   ensure_installed = servers,
   }
 
   for _, lsp in pairs(servers) do
