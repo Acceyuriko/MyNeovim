@@ -66,6 +66,7 @@ require('packer').startup(function(use)
 
   use { 'numToStr/Comment.nvim' }
   use { 'JoosepAlviste/nvim-ts-context-commentstring' }
+  use { 'kkoomen/vim-doge', run = function() vim.fn['doge#install']() end }
 
   use { 'windwp/nvim-autopairs' }
   use { 'windwp/nvim-ts-autotag' }
@@ -78,7 +79,7 @@ require('packer').startup(function(use)
 
   use({
     'iamcco/markdown-preview.nvim',
-    run = function() vim.fn["mkdp#util#install"]() end,
+    run = function() vim.fn['mkdp#util#install']() end,
   })
 
   use { 'Pocco81/AutoSave.nvim' }

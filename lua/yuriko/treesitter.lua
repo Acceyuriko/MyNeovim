@@ -8,6 +8,7 @@ function M:setup()
       'c_sharp',
       'typescript',
       'javascript',
+      'jsdoc',
       'html',
       'css',
       'tsx',
