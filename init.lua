@@ -76,7 +76,10 @@ require('packer').startup(function(use)
   use { 'mfussenegger/nvim-dap' }
   use { 'prettier/vim-prettier' }
 
-  use { 'iamcco/markdown-preview.nvim', run = 'call mkdp#util#install()' }
+  use({
+    'iamcco/markdown-preview.nvim',
+    run = function() vim.fn["mkdp#util#install"]() end,
+  })
 
   use { 'Pocco81/AutoSave.nvim' }
 
