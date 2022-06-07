@@ -25,6 +25,8 @@ require('packer').startup(function(use)
   use 'RRethy/vim-illuminate'
   use 'tpope/vim-sleuth'
 
+  use { 'jose-elias-alvarez/null-ls.nvim' }
+
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'nvim-treesitter/nvim-treesitter-refactor' }
   use { 'p00f/nvim-ts-rainbow' }
@@ -75,7 +77,6 @@ require('packer').startup(function(use)
   use { 'folke/todo-comments.nvim' }
 
   use { 'mfussenegger/nvim-dap' }
-  use { 'prettier/vim-prettier' }
 
   use({
     'iamcco/markdown-preview.nvim',
@@ -100,6 +101,7 @@ require('yuriko.vim').setup {}
 -- Mappings.
 
 require('yuriko.cmp').setup {}
+require('yuriko.nullls').setup {}
 require('yuriko.copilot').setup {}
 require('yuriko.diagnostic').setup {}
 require('yuriko.project').setup {}
@@ -111,6 +113,5 @@ require('yuriko.comment').setup {}
 require('yuriko.dap').setup {}
 require('yuriko.quality-of-life').setup {}
 require('yuriko.preview').setup {}
-require('yuriko.prettier').setup {}
 
 require('yuriko.lang.rust').setup {}

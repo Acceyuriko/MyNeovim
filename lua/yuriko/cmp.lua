@@ -27,7 +27,7 @@ function M:setup()
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>p', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
     require('illuminate').on_attach(client)
   end
@@ -138,7 +138,6 @@ function M:setup()
     'sumneko_lua',
     'ltex',
     'tsserver',
-    'eslint',
     'rust_analyzer',
     'gopls',
     'pyright',
@@ -180,10 +179,6 @@ function M:setup()
 
     if lsp == 'tsserver' then
       config.root_dir = lspconfig.util.root_pattern('tsconfig.json', 'jsconfig.json', '.git')
-    end
-
-    if lsp == 'eslint' then
-      config.root_dir = lspconfig.util.root_pattern('.eslintrc.json', '.eslintrc.js', '.git')
     end
 
     lspconfig[lsp].setup(config)
