@@ -8,7 +8,6 @@ My simple neovim configuration for development.
 - Node.js, npm and yarn.
 - [fd](https://github.com/sharkdp/fd) is required for `find_files` of `telescope`.
 - [ripgrep](https://github.com/BurntSushi/ripgrep) is required for `live_grep` of `telescope`.
-- [eslint_d](https://github.com/mantoni/eslint_d.js) is required for 'null-ls'.
 - [neovide](https://github.com/neovide/neovide) is recommended.
 - Windows
   - [git bash](https://git-scm.com/downloads)
