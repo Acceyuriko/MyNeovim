@@ -16,14 +16,14 @@ require('packer').startup(function(use)
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
+  use 'saadparwaiz1/cmp_luasnip'
   use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/vim-vsnip'
-  use 'hrsh7th/vim-vsnip-integ'
-  use 'rafamadriz/friendly-snippets'
-  use 'ray-x/lsp_signature.nvim'
   use 'github/copilot.vim'
   use 'RRethy/vim-illuminate'
   use 'tpope/vim-sleuth'
+
+  use { 'rafamadriz/friendly-snippets' }
+  use { 'L3MON4D3/LuaSnip' }
 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'nvim-treesitter/nvim-treesitter-refactor' }
@@ -66,7 +66,6 @@ require('packer').startup(function(use)
 
   use { 'numToStr/Comment.nvim' }
   use { 'JoosepAlviste/nvim-ts-context-commentstring' }
-  use { 'kkoomen/vim-doge', run = function() vim.fn['doge#install']() end }
 
   use { 'windwp/nvim-autopairs' }
   use { 'windwp/nvim-ts-autotag' }
