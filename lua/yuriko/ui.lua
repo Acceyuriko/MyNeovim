@@ -51,8 +51,6 @@ function M:setup()
     }
   }
   require('scrollbar.handlers.search').setup {}
-
-  require('alpha').setup(require('alpha.themes.startify').config)
 end
 
 return M
