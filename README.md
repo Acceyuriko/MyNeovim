@@ -9,10 +9,10 @@ My simple neovim configuration for development.
 - [fd](https://github.com/sharkdp/fd) is required for `find_files` of `telescope`.
 - [ripgrep](https://github.com/BurntSushi/ripgrep) is required for `live_grep` of `telescope`.
 - [neovide](https://github.com/neovide/neovide) is recommended.
+- Because of the [problem](https://github.com/nvim-treesitter/nvim-treesitter/wiki/Windows-support#troubleshooting), clang is required.
 - Windows
   - [git bash](https://git-scm.com/downloads)
   - [chocolatey](https://docs.chocolatey.org/en-us/choco/setup#non-administrative-install)
-  - Because of the [problem](https://github.com/nvim-treesitter/nvim-treesitter/wiki/Windows-support#troubleshooting), clang is required.
   - `make` and `mingw` is required for compiling.
   - `sed` is required for `vim-spectre`.
   - Run `choco install make mingw llvm sed` in powershell with admin privileges.

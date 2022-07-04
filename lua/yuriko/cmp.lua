@@ -6,6 +6,7 @@ function M:setup()
   local cmp = require('cmp')
   local lspconfig = require('lspconfig')
   local lspinstaller = require('nvim-lsp-installer')
+  local DATA_PATH = vim.fn.stdpath('data')
 
   require('luasnip.loaders.from_vscode').lazy_load();
 
@@ -181,6 +182,7 @@ function M:setup()
     end
 
     if lsp == 'tsserver' then
+      config.cmd = {DATA_PATH .. "/lsp_servers/tsserver/node_modules/.bin/typescript-language-server", "--stdio", "--tsserver-path=" .. DATA_PATH .. "/lsp_servers/tsserver/node_modules/typescript/lib/tsserver.js"}
       config.root_dir = lspconfig.util.root_pattern('tsconfig.json', 'jsconfig.json', '.git')
     end
 
