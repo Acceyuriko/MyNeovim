@@ -81,8 +81,6 @@ require('packer').startup(function(use)
     run = function() vim.fn['mkdp#util#install']() end,
   })
 
-  use { 'Pocco81/AutoSave.nvim' }
-
   use { 'kevinhwang91/nvim-hlslens' }
   use { 'petertriho/nvim-scrollbar' }
 
