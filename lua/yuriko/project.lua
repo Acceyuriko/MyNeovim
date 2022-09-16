@@ -8,10 +8,10 @@ function M:setup()
     view = {
       width = 60
     },
-    update_cwd = true,
+    update_cwd = false,
     update_focused_file = {
       enable = true,
-      update_cwd = true,
+      update_cwd = false,
     }
   }
   vim.cmd([[highlight NvimTreeFolderIcon guibg=true]])
