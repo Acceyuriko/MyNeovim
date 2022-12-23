@@ -187,7 +187,7 @@ function M:setup()
     end
 
     if lsp == 'eslint' then
-      config.root_dir = lspconfig.util.root_pattern('.eslintrc.json', '.eslintrc.js', '.git')
+      config.root_dir = lspconfig.util.root_pattern('.eslintrc.json', '.eslintrc.js', 'package.json', '.git')
     end
 
     lspconfig[lsp].setup(config)

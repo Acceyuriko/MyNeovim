@@ -2,12 +2,25 @@ local M = {}
 
 function M:setup()
   local opts = { noremap = true, silent = true }
+  local previewers = require('telescope.previewers');
+
   require('telescope').setup({
     defaults = {
       layout_strategy = 'vertical',
       layout_config = {
         vertical = { width = 0.95, height = 0.95 },
-      }
+      },
+      buffer_previewer_maker = function(filepath, bufnr, opts)
+        filepath = vim.fn.expand(filepath)
+        vim.loop.fs_stat(filepath, function(_, stat)
+          if not stat then return end
+          if stat.size > 100000 then
+            return
+          else
+            previewers.buffer_previewer_maker(filepath, bufnr, opts)
+          end
+        end)
+      end
     }
   })
   require('telescope').load_extension('projects')

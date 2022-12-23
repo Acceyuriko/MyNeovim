@@ -24,10 +24,11 @@ function M:setup()
 
   vim.o.foldenable = true
   vim.o.foldlevel = 99
-  vim.o.foldmethod = 'expr'
-  vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+  vim.o.foldmethod = 'indent'
 
   vim.o.guifont = 'CaskaydiaCove Nerd Font:h12';
+
+  vim.o.mouse = '';
 
   vim.g.neovide_cursor_vfx_mode = "railgun"
   vim.g.mapleader = ' ';
